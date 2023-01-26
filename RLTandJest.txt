@@ -1,0 +1,191 @@
+React Testing Library with Jest - Udemy Course - 07/11/2022
+
+1. Tips
+2. React Testing Library (RTL) vs Jest
+3. Command List
+4. Breaking Down Syntax (React Testing Library)
+5. Methods Of the screen Object (RTL Queries) > Queries
+6. Jest Assertions
+7. jest-dom > Matchers of the jest-dom
+8. test()
+9. Types of Tests
+10. About Queries
+11. logRoles() - used to console.log list of all roles
+12. fireEvent
+13. describe()
+14. ESLint and Prettier
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Tips:
+- Test your software the way it is intended to be used, not how you made it.
+- Find elements for testing using their accessibility markers and not test IDs.
+- If we use create-react-app to create the applications, testing library is already part of the application
+
+React Testing Library (RTL) vs Jest:
+1. React Testing Library (RTL):
+- It provides Virtual DOM for tests
+- it renders the components into Virtual DOM (render)
+- gives access to the Virtual DOM (screen's methods) - searching virtual DOM
+- interacting with the Virtual DOM - clicking on elements, and etc.
+- it allows testing without the Browser, because we have our own DOM - the Virtual DOM
+2. Jest:
+- Jest is a library that is a "test runner"
+- it finds the tests
+- it runs the tests
+- and it determines whether tests pass or fail
+
+Command List:
+- npm test - it is used to run all written tests inside the React Application
+
+Breaking Down Syntax (React Testing Library):
+---------------------------------------------
+*import {render, screen} from '@testing-library/react';
+- render(JSX component) - render(JSX component) method accepts a JSX component as an argument and it creates a virtual DOM for the JSX argument
+- screen - to access the Virtual DOM we use the screen object, it basically represents the VDOM, it is a global object that is filled with helpful properties
+
+Methods Of the screen Object (RTL Queries):
+-------------------------------------------
+- On the documentation of React Testing Library, under Core API > About Queries, we can find all the possible queries that we can use.
+- There we can see that every querie method is divided into the prefix and the root of the word - called the "Types of Queries"
+- For and example, getBy is a prefix
+- Additionaly, every querie also accepts an object argument, this object argument is called a "options", every individual querie has different options (check docs)
+
+Queries:
+--------
+- screen.getByText(string, {}) - to find the element of the VDOM based on the text the element is displaying - the text by which we are comparing is the argument
+- screen.getByRole(string, {}) - used to find elements that have a role of the first argument, every element should have his role defined either by default or by the developer, and we 
+should use its role to find it, the second argument - the object, is a collection of options - this is just a collection of additional information you give to the querie when searching 
+for the element with this method. option's property name is the most common property that is used, it finds the specific elemnt by the content it displays, for buttons it is his content
+child that is inside button, for checkboxes is the label that is associated to that checkbox.
+
+Jest Assertions:
+----------------
+- Assertions determine whether tests pass or fail.
+- Assertions are the ones that set the requirement of the test, and if that requirement is filled it passes - if it is not it fails.
+- They are an essential part of every test, because they are basically an end result of every test.
+
+- Example of a Jest Assertion:
+expect(linkElement).toBeInTheDocument();
+
+- Every assertion begins with the expect(argument) method.
+- Every expect method, should accept an argument, this argument is the "subject of the assertion" - what are we testing - what component/element.
+
+- "toBeInTheDocument()" is a "matcher", matchers are methods on the expect object that define what is the requirement for the test to pass.
+- matchers are methods, which means they are capable of accepting arguments, some matchers have them, some don't
+- Every Assertion sounds like this: "expect a component (argument) to be... / to have... / to not have..."
+
+- "React Testing Library" is the one that will render the component, select the component and enable us to pass it to the Jest Assertion's expect() method
+as an argument - "linkElement" is a variable that holds the <a></a> tag or any other tag that we rendered and selected with the "RTL"
+
+jest-dom:
+---------
+- just a little note regarding the jest-dom library, jest-dom has matchers are are used to test the relation between the component that is being tested and
+the DOM itself.
+- toBeInTheDocument() is a matcher from the jest-dom library and test if the component is a part of the Virtual DOM, toBeChecked() checks if the component
+a toggle button or a checkmark is in the checked state while on the Virtual DOM.
+- depending of what are we trying to test, we can use matchers from jest or from the jest-dom.
+
+Matchers of the jest-dom:
+-------------------------
+* https://github.com/testing-library/jest-dom#custom-matchers *
+- toHaveStyle(string | object) - this matcher checks if the certain element has some specific css properties that we passed as arguments to the matcher, for an example,
+toHaveStyle("display:none") or toHaveStyle({display: "none"}). It matches only if the element has all the expected properties passed to the matcher. 
+- toHaveTextContent(string)
+
+test():
+-------
+
+- test method represents a single test that is going to be ran by Jest library.
+- test(string, callback function) is a global method that has two arguments.
+- First argument, the string, is used to describe what the test is about, also it is used as an identifier if a test fails so You know which test failed.
+- Second argument, the callback function, is the executable code that is the React Testing Library and also the expect() with its matchers. 
+
+* The test fails if any part of the callback function returns an error, to be more precise, the only part of the test that can return an error is the 
+expect() method or so called Jest Assertion * 
+- If there is no error, the test passes, which means, if there is no Jest Assertion, the test will pass by default, because nothing is there to return an
+error.
+- Empty tests pass!
+- "The Assertion will throw an error if the expectation is not met, which fails the test"
+
+Types of Tests:
+---------------
+
+Unit Test:
+----------
+- testing one unit of code in isolation.
+- testing a single component or an element.
+
+Integration Test:
+-----------------
+- how multiple components interact with each other.
+
+Functional Test:
+----------------
+- testing a particular function of software, the behavior of software
+
+About Queries:
+---------------
+* Queries Cheatsheet *
+- https://testing-library.com/docs/react-testing-library/cheatsheet/
+- Queuries are used to select elements from the Virtual DOM that we will use for testing.
+- Everything that we render on the VDOM is accessible to us and we use Queries to select them.
+- Queuries are part of the screen object of the React Testing Library
+
+- https://testing-library.com/docs/queries/about/#priority
+- On this link, we can find the "order of priority" on what queries should we use and in which order - this topic directly links to the topic of using Accessibility tags to select 
+components and their elements on the VDOM.
+- This link has the recommended queries and when to use them when selecting elements while also thinking about the most effective way while also adding accessibility
+
++ The most recommended way of selecting elements is using the getByRole("role", {name:}) querie method, is selects the elements on the VDOM by their role.
+- in the documentation we can see what arguments it accepts
+- Every element in html and JSX comes with a role property attached to it, some elements have a default values, such as button having a button role, and also we are able to change the
+role of every single element by using the "role" prop.
+- On these links we can find all possible roles elements can have, that we can defind that they are:
+- https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/ARIA_Techniques#roles
+- https://www.w3.org/TR/wai-aria/#role_definitions
+
+logRoles() - used to console.log list of all roles:
+-------------------------------------------------
+- Documentation: https://testing-library.com/docs/dom-testing-library/api-debugging#logroles
+- import {logRoles} from '@testing-library/react'
+
+- Sometimes we are not able to know what role does a specific element have, so we use the logRoles() method to list all roles of all elements that are on the VDOM to our console
+- then we are able to use this information however we like
+
+- Syntax: 
+- using logRoles() is a bit specific, but simple
+- first we import the logRoles()
+- secondly, we have to destructure the object the render method returns, and take the container property from it - const { container } = render(<App />);
+- finally, we call the logRoles() method and pass the container as the argument - logRoles(container)
+
+- this will display an output inside the console
+
+fireEvent:
+----------
+- Documentation: https://testing-library.com/docs/dom-testing-library/api-events
+- import {fireEvent} from '@testing-library/user-event'
+
+- fireEvent is an object, that gives us the capabilities to have interactions with our elements in the VDOM.
+- this object is very important for detailed testing, testing the functionality and testing expected outcomes.
+
+- on the fireEvent object exist properties that mimick the events.
+- fireEvent.click(elementToClickOn);
+
+describe():
+-----------
+
+- collection of tests are stored inside this describe() method
+- it is literally same as a test() method, it accepts two arguments, the description - string and also the callback function where inside the body we write test() methods.
+
+ESLint and Prettier:
+--------------------
+- Watch the Section 3: ESLint with Testin Library, plus Prettier
+
+- ESLint is a popular linter for JavaScript.
+- "linter" - analyzes static text and marks syntax that breaks rules
+- "static" - meaning the written not executed code
+- it can also catch errors, such as using variable before declaration or importing non-existent files
+
+- Prettier is a formatter.
+- It automatically formats code.
+- For an example, indents or spacing.
